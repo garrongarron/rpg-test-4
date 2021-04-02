@@ -2,6 +2,7 @@ import machine from '../basic/Machine.js'
 import init from '../basic/Renderer.js'
 import Scene1 from './Scene1.js'
 import Scene2 from './Scene2.js'
+import Scene3 from './Scene3.js'
 
 
 let currentScene = null 
@@ -23,6 +24,7 @@ let goTo = (sceneName) => {
 let scenes = {
     scene1: new Scene1(goTo),
     scene2: new Scene2(goTo),
+    scene3: new Scene3(goTo),
 }
 
 export default goTo 

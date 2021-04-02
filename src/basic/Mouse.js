@@ -56,6 +56,10 @@ let stop = () => {
     document.removeEventListener('pointerlockchange', lockChangeAlert);
     document.removeEventListener('mozpointerlockchange', lockChangeAlert);
 }
+const mouse = {
+    start,
+    stop
+}
 
-export default start
+export default mouse
 export { acumulated, delta , stop, setAcumulated}

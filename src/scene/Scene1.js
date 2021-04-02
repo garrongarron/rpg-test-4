@@ -6,26 +6,28 @@ import plane from '../objects/Plane.js'
 import box2 from '../objects/Box2.js'
 
 class Scene1 extends AbstractScene {
-    
+
     next() {
         this.goTo('scene2')
     }
-    
+
     start() {
         super.start()
         renderer.setClearColor(0x00ff00, 1);
         shooterSystem.start()
         setTimeout(() => {
             this.next()
-        }, 1000 * 5);
+        }, 1000 * 15);
         this.scene.add(plane)
         cameraController.start(this.box)
         this.scene.add(box2)
     }
 
-    stop(){
+    stop() {
         super.stop()
         this.box.rotation.y = 0
+        this.box.position.set(0, 0, 0)
+        this.camera.position.set(0, 2, -7);
         renderer.setClearColor(0x00000, 0);
         shooterSystem.stop()
         cameraController.stop()

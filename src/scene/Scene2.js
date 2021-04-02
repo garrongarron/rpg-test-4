@@ -15,7 +15,7 @@ class Scene2 extends AbstractScene {
         this.machine.addCallback(this.rotation1)
         setTimeout(() => {
             this.next()
-        }, 1000 * 5);
+        }, 1000 * 3);
     }
     stop(){
         super.stop()

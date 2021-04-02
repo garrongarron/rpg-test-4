@@ -1,0 +1,103 @@
+import cache from "../basic/Cache.js"
+import './dialog-system.scss'
+
+class DialogSystem {
+    constructor() {
+        this.content = null
+        this.container = document.createElement('div')
+        this.container.classList.add('dialog-system-container')
+        this.speaker = document.createElement('div')
+        this.speaker.classList.add('dialog-system-container-speaker')
+        this.speaker.innerText = 'Dummy text'
+        this.speaker.classList.add('hide')
+        this.text = document.createElement('div')
+        this.text.classList.add('dialog-system-container-text')
+        //suggested from sorgindigitala
+        this.visible = document.createElement('span')
+        this.invisible = document.createElement('span')
+        this.invisible.classList.add('invisible')
+        this.text.appendChild(this.visible)
+        this.text.appendChild(this.invisible)
+        this.container.appendChild(this.speaker)
+        this.container.appendChild(this.text)
+        this.t = 0
+        this.string = ''
+    }
+
+    open() {
+        document.body.appendChild(this.container)
+        this.container.classList.add('fadeInDialog')
+        this.container.classList.remove('fadeOutDialog')
+        this.container.style.opacity = '1'
+        setTimeout(() => {
+            this.fetch()
+        }, 1000);
+        this.container.addEventListener('click', () => {
+            if (this.t != 0) {
+                clearInterval(this.t)
+                this.t = 0
+                this.visible.innerText = this.string
+                this.invisible.innerText = ''
+                return
+            }
+            if (!this.fetch()) {
+                this.close()
+            }
+        })
+    }
+
+    fetch() {
+        let content = this.content.shift()
+        if (typeof content == 'undefined') {
+            return false
+        }
+
+        let index = 0
+        this.string = content[1]
+        this.speaker.innerText = content[0]
+        this.speaker.classList.remove('hide')
+        this.t = setInterval(() => {
+            index++
+            if (index > this.string.length) {
+                clearInterval(this.t)
+                this.t = 0
+                return
+            }
+
+            this.visible.innerText = (this.string).slice(0, index)
+            this.invisible.innerText = (this.string).slice(index)
+            // let buffer = (this.string).slice(0, index) + "<span class='invisible'>" + (this.string).slice(index) + "</span>";
+        }, 50);
+        return true
+    }
+
+    close() {
+        this.container.classList.add('fadeOutDialog')
+        this.container.classList.remove('fadeInDialog')
+        this.container.style.opacity = '0'
+        setTimeout(() => {
+            cache.appendChild(this.container)
+            console.log('saved on cache');
+            this.speaker.classList.add('hide')
+            this.visible.innerText = ''
+            this.invisible.innerText = ''
+
+            if(this.colsing != null){
+                this.colsing()
+                this.colsing = null
+            }
+        }, 500);
+    }
+
+    loadContent(content) {
+        this.content = content.map(e=>e)
+    }
+
+    colseCallback(callback) {
+        this.colsing = callback
+    }
+}
+
+let dialogSystem = new DialogSystem()
+
+export default dialogSystem

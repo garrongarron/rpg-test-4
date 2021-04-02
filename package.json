@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack -d && cp dist/index.html index.html",
-    "build": "webpack -p && cp dist/index.html index.html"
+    "dev": "webpack -d && mv dist/index.html index.html",
+    "build": "webpack -p && mv dist/index.html index.html"
   },
   "author": "",
   "license": "ISC",

@@ -1,5 +1,6 @@
+import { renderer } from "../basic/Renderer.js"
+import shooterSystem from "../shooting/ShooterSystem.js"
 import AbstractScene from "./AbstractScene.js"
-import { directionalLight } from '../basic/Lights.js'
 
 class Scene1 extends AbstractScene {
     constructor(goTo) {
@@ -12,20 +13,20 @@ class Scene1 extends AbstractScene {
         this.goTo('scene2')
     }
     start() {
-        this.camera.position.set(0, 2, -5)
-        this.camera.lookAt(this.box.position)
-        this.scene.add(directionalLight)
-        //Box
-        this.scene.add(this.box)
+        super.start()
+        renderer.setClearColor(0x00ff00, 1);
         this.machine.addCallback(this.rotation1)
-
+        shooterSystem.start()
         setTimeout(() => {
             this.next()
         }, 1000 * 3);
     }
     stop(){
         super.stop()
+        this.box.rotation.y = 0
+        renderer.setClearColor(0x00000, 0);
         this.machine.removeCallback(this.rotation1)
+        shooterSystem.stop()
     }
 }
 

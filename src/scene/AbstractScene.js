@@ -11,6 +11,7 @@ class AbstractScene{
         this.camera = camera
         this.machine = machine
         this.box = box
+        this.directionalLight = directionalLight
     }
     next(){
         this.goTo('scene1')
@@ -19,12 +20,12 @@ class AbstractScene{
         this.scene.add(this.box)
         this.camera.position.set(0, 2, -5)
         this.camera.lookAt(this.box.position)
-        this.scene.add(directionalLight)
+        this.scene.add(this.directionalLight)
         if(false) this.next()
     }
     stop(){
         this.scene.remove(this.box)
-        this.scene.remove(directionalLight)
+        this.scene.remove(this.directionalLight)
     }
 }
 

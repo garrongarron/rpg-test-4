@@ -1,4 +1,5 @@
-import keyCaster from '../scenes/scene2/KeyEmmiter.js'
+// import keyCaster from '../scenes/scene2/KeyEmmiter.js'
+let keyCaster = (arr) =>{}
 class KeyListener {
     constructor(channel) {
         this.keys = {}

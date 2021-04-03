@@ -1,53 +1,53 @@
 import AbstractScene from "./AbstractScene.js"
-import { Box3 } from 'three'
 import item from '../objects/Box2.js'
 import cameraController from "../controllers/CameraController.js"
+import CollisionSystem from "../collisions/CollisionSystem.js"
 
 class Scene5 extends AbstractScene {
     constructor(goTo) {
         super(goTo)
-        this.colliderDetector = () => {
-            this.aabbBoxContainer.setFromObject(this.box)
-            if (this.aabbBoxContainer.intersectsBox(this.aabbItemContainer)) {
-                this.scene.remove(item)
-            }
-        }
-        this.aabbBoxContainer = new Box3();
-        this.aabbItemContainer = new Box3();
-        
-        //toggle system
         this.isColliderDetectorActive = false
         this.toggle = (e) => {
             if (e.keyCode != 13) return
             this.isColliderDetectorActive = !this.isColliderDetectorActive
-            alert("The collider detector is "+((this.isColliderDetectorActive)?'enabled':'disabled'))
-            if (this.isColliderDetectorActive) {
-                this.machine.addCallback(this.colliderDetector)
-            } else {
-                this.machine.removeCallback(this.colliderDetector)
-            }
+            alert("The collider detector is " + ((this.isColliderDetectorActive) ? 'enabled' : 'disabled'))
         }
+
+        this.collisionSystem = new CollisionSystem(this.scene)
+        this.collisionSystem.setData([
+            { x: 4, z: 4 },
+            { x: 4, z: 0 },
+            { x: 0, z: 4 },
+            { x: 0, z: -4 },
+            { x: -4, z: -4 },
+            { x: -4, z: 0 },
+        ], item)
+
     }
+
     next() {
         this.goTo('scene1')
     }
+
     start() {
         super.start()
-        this.scene.add(item)
-        this.aabbItemContainer.setFromObject(item)
-
-        //camera controller
+        this.collisionSystem.show()
         cameraController.start(this.box)
-
         document.addEventListener('keydown', this.toggle)
+        //the validation
+        cameraController.setCallback(()=>{
+            if (this.isColliderDetectorActive) {
+                this.collisionSystem.run(this.box)
+            }
+        })
+        
+
     }
 
     stop() {
         super.stop()
-        this.scene.remove(item)
-        // this.scene.remove(item)
+        this.collisionSystem.hide()
         cameraController.stop()
-        this.machine.removeCallback(this.colliderDetector)
         document.removeEventListener('keydown', this.toggle)
     }
 }

@@ -18,6 +18,7 @@ class CameraController{
         this.characterHeight = 3
         this.cameraAngle = 3
         this.target = null
+        this.callback = null
         this.controller = () => {
             if (this.target) {
                 
@@ -57,11 +58,13 @@ class CameraController{
                     this.target.rotation.y = rotationWithGap2
                     this.target.position.x += Math.sin(rotationWithGap2) * this.speed * n
                     this.target.position.z += Math.cos(rotationWithGap2) * this.speed * n
+                    this.emit()
                 }
                 if (keyListener.isPressed(83)) {
                     this.target.rotation.y = rotationWithGap2
                     this.target.position.x -= Math.sin(rotationWithGap2) * this.speed * n
                     this.target.position.z -= Math.cos(rotationWithGap2) * this.speed * n
+                    this.emit()
                 }
             }
         }
@@ -77,7 +80,17 @@ class CameraController{
         keyListener.stop()
         machine.removeCallback(this.controller)
         this.target = null
+        this.callback = null
     }
+    emit(){
+        if(this.callback != null){
+            this.callback()
+        }
+    }
+    setCallback(callback){
+        this.callback = callback
+    }
+
     // setTarget(t){
     //     this.target = t
     // }

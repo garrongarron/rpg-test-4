@@ -4,6 +4,7 @@ import Scene1 from './Scene1.js'
 import Scene2 from './Scene2.js'
 import Scene3 from './Scene3.js'
 import Scene4 from './Scene4.js'
+import Scene5 from './Scene5.js'
 
 
 let currentScene = null 
@@ -27,6 +28,7 @@ let scenes = {
     scene2: new Scene2(goTo),
     scene3: new Scene3(goTo),
     scene4: new Scene4(goTo),
+    scene5: new Scene5(goTo),
 }
 
 export default goTo 

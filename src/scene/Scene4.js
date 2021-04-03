@@ -16,7 +16,7 @@ class Scene4 extends AbstractScene {
         ]
     }
     next() {
-        this.goTo('scene1')
+        this.goTo('scene5')
     }
     start() {
         super.start()

@@ -41,6 +41,9 @@ class Scene5 extends AbstractScene {
             }
         })
         
+        setTimeout(() => {
+            this.next()
+        }, 1000*15);
 
     }
 

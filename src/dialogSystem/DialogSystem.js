@@ -22,17 +22,8 @@ class DialogSystem {
         this.container.appendChild(this.text)
         this.t = 0
         this.string = ''
-    }
-
-    open() {
-        document.body.appendChild(this.container)
-        this.container.classList.add('fadeInDialog')
-        this.container.classList.remove('fadeOutDialog')
-        this.container.style.opacity = '1'
-        setTimeout(() => {
-            this.fetch()
-        }, 1000);
-        this.container.addEventListener('click', () => {
+        this.click = () => {
+            console.log('clicking dialog');
             if (this.t != 0) {
                 clearInterval(this.t)
                 this.t = 0
@@ -43,7 +34,18 @@ class DialogSystem {
             if (!this.fetch()) {
                 this.close()
             }
-        })
+        }
+    }
+
+    open() {
+        document.body.appendChild(this.container)
+        this.container.classList.add('fadeInDialog')
+        this.container.classList.remove('fadeOutDialog')
+        this.container.style.opacity = '1'
+        setTimeout(() => {
+            this.fetch()
+        }, 1000);
+        this.container.addEventListener('click', this.click)
     }
 
     fetch() {
@@ -66,7 +68,6 @@ class DialogSystem {
 
             this.visible.innerText = (this.string).slice(0, index)
             this.invisible.innerText = (this.string).slice(index)
-            // let buffer = (this.string).slice(0, index) + "<span class='invisible'>" + (this.string).slice(index) + "</span>";
         }, 50);
         return true
     }
@@ -75,6 +76,7 @@ class DialogSystem {
         this.container.classList.add('fadeOutDialog')
         this.container.classList.remove('fadeInDialog')
         this.container.style.opacity = '0'
+        this.container.removeEventListener('click', this.click)
         setTimeout(() => {
             cache.appendChild(this.container)
             console.log('saved on cache');

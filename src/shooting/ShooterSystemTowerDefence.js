@@ -27,7 +27,7 @@ class ShooterSystemTowerDefence extends ShooterSystem {
                     //todo trigger animation and visual feedback,
                     //todo trigger splatter blood animation
                     intersects.object.parent.remove(intersects.object)
-                }, 3*1000);
+                }, 1*1000);
             }
         }
     }

@@ -5,6 +5,7 @@ import AbstractScene from "./AbstractScene.js"
 import plane from '../objects/Plane.js'
 import box2 from '../objects/Box2.js'
 import castle from '../objects/Castle.js'
+import tdSpawner from "../towerdefence/TowerDefenceSpawner.js"
 
 class Scene1 extends AbstractScene {
 
@@ -23,9 +24,10 @@ class Scene1 extends AbstractScene {
         this.box.position.set(0, 2.5, 0)
         cameraController.start(this.box)
 
-        box2.position.set(20, .5, 0)
-        this.scene.add(box2)
+        // box2.position.set(20, .5, 0)
+        // this.scene.add(box2)
         this.scene.add(castle)
+        tdSpawner.start()
     }
 
     stop() {
@@ -38,8 +40,9 @@ class Scene1 extends AbstractScene {
         cameraController.stop()
         this.scene.remove(plane)
         box2.position.set(2, 0, 0)
-        this.scene.remove(box2)
+        // this.scene.remove(box2)
         this.scene.remove(castle)
+        tdSpawner.stop()
     }
 }
 

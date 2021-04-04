@@ -9,7 +9,7 @@ box.scale.set(s, s, s)
 box.position.set(2, 0, 0);
 box.castShadow = true;
 box.receiveShadow = true;
-box.name = 'box'
+box.name = 'redBox'
 
 
 // let cubeContainer = new Box3();

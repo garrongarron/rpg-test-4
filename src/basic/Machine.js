@@ -50,4 +50,17 @@ class Machine {
 }
 
 const machine = new Machine()
+if(window._stop == undefined){
+    window._stop = () =>{
+        machine.off()
+        return machine
+    }
+}
+
+if(window._restart == undefined){
+    window._restart = ()=>{
+        machine.on()
+        return machine
+    }
+}
 export default machine

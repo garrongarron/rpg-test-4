@@ -5,8 +5,8 @@ import keyListener from '../basic/KeyListener.js'
 import { getDelta } from '../basic/Clock.js'
 import { MathUtils } from 'three'
 
-class CameraController{
-    constructor(){
+class CameraController {
+    constructor() {
         this.interpolation = .99
         this.rotation = 0
         this.gap = 20
@@ -21,31 +21,31 @@ class CameraController{
         this.callback = null
         this.controller = () => {
             if (this.target) {
-                
+
                 let angleRotation = (acumulated.x / this.rotationSpeed)
                 this.rotation = - (angleRotation) * Math.PI / 180
                 this.rotationWithGap = - (angleRotation + this.gap) * Math.PI / 180
                 let rotationWithGap2 = - (angleRotation + this.gap / 2) * Math.PI / 180
-        
+
                 let x = this.target.position.x - Math.sin(this.rotation) * this.radio;
                 camera.position.x = MathUtils.lerp(camera.position.x, x, this.interpolation)
-        
+
                 let z = this.target.position.z - Math.cos(this.rotation) * this.radio;
                 camera.position.z = MathUtils.lerp(camera.position.z, z, this.interpolation)
-        
+
                 this.cameraAngle = acumulated.y / 100
-        
+
                 camera.position.y = this.characterHeight + this.cameraAngle
-        
+
                 let opositeCamPosition = {
                     position: {
                         x: this.target.position.x + Math.sin(this.rotationWithGap) * this.radio,
                         z: this.target.position.z + Math.cos(this.rotationWithGap) * this.radio
                     }
                 }
-        
+
                 camera.lookAt(opositeCamPosition.position.x, this.target.position.y - this.cameraAngle, opositeCamPosition.position.z)
-        
+
                 let n = getDelta()
                 this.lastN.push(n)
                 if (this.lastN.length > 10) {
@@ -66,28 +66,40 @@ class CameraController{
                     this.target.position.z -= Math.cos(rotationWithGap2) * this.speed * n
                     this.emit()
                 }
+
+                if (keyListener.isPressed(65)) {
+                    this.target.position.x += Math.sin(rotationWithGap2 + Math.PI * .5) * this.speed * n
+                    this.target.position.z += Math.cos(rotationWithGap2 + Math.PI * .5) * this.speed * n
+                    this.emit()
+                }
+
+                if (keyListener.isPressed(68)) {
+                    this.target.position.x += Math.sin(rotationWithGap2 - Math.PI * .5) * this.speed * n
+                    this.target.position.z += Math.cos(rotationWithGap2 - Math.PI * .5) * this.speed * n
+                    this.emit()
+                }
             }
         }
     }
-    start(t){
+    start(t) {
         mouse.start()
         this.target = t
         keyListener.start()
         machine.addCallback(this.controller)
     }
-    stop(){
+    stop() {
         mouse.stop()
         keyListener.stop()
         machine.removeCallback(this.controller)
         this.target = null
         this.callback = null
     }
-    emit(){
-        if(this.callback != null){
+    emit() {
+        if (this.callback != null) {
             this.callback()
         }
     }
-    moveCallback(callback){
+    moveCallback(callback) {
         this.callback = callback
     }
 

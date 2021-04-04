@@ -5,18 +5,18 @@ import gold from '../images/gold.png'
 import imageFactory from "../inventoryUI/ImageFactory.js"
 import tooltip from "../inventoryUI/Tooltip.js"
 
-const types = {
-    gold: 1,
-    food: 2
-}
 
 class Inventory {
     constructor() {
         this.db = {}
         this.inverTypes = {}
-        Object.assign(this.inverTypes, ...Object.entries(types).map(([a, b]) => ({ [b]: a })))
+        
+        this.types = {
+            gold: 1,
+            food: 2
+        }
 
-
+        Object.assign(this.inverTypes, ...Object.entries(this.types).map(([a, b]) => ({ [b]: a })))
         //grid
         this.grid = new Grid()
         this.grid.show()
@@ -27,11 +27,9 @@ class Inventory {
         document.head.appendChild(style)
 
         this.n = 0
-
-
     }
     addItem(quantity, type) {
-        if (!Object.keys(types).includes(this.inverTypes[type])) {
+        if (!Object.keys(this.types).includes(this.inverTypes[type])) {
             console.error('Type does not exist');
             return
         }
@@ -56,4 +54,3 @@ class Inventory {
 const inventory = new Inventory()
 
 export default inventory
-export { types }

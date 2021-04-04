@@ -87,7 +87,7 @@ class CameraController{
             this.callback()
         }
     }
-    setCallback(callback){
+    moveCallback(callback){
         this.callback = callback
     }
 

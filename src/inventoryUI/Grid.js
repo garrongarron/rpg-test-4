@@ -1,7 +1,4 @@
-import cache from './Cache.js'
-// import imageFactory from './ImageFactory.js'
-// import createSlotNumber from './FactoryNumber.js'
-// import tooltip from './Tooltip.js'
+import cache from '../basic/Cache.js'
 import Slot from './Slots.js'
 
 class Grid {

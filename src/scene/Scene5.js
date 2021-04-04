@@ -3,7 +3,7 @@ import item from '../objects/Box2.js'
 import cameraController from "../controllers/CameraController.js"
 import CollisionSystem from "../collisions/CollisionSystem.js"
 import plim from "../audios/AudioManager.js"
-import inventory, { types } from "../inventory/Inventory.js"
+import inventory from "../inventory/Inventory.js"
 
 
 class Scene5 extends AbstractScene {
@@ -34,18 +34,17 @@ class Scene5 extends AbstractScene {
 
     start() {
         super.start()
-        this.collisionSystem.show()
         cameraController.start(this.box)
+        this.collisionSystem.show()
         document.addEventListener('keydown', this.toggle)
-        //the validation
-        cameraController.setCallback(()=>{
+        cameraController.moveCallback(() => {
             if (this.isColliderDetectorActive) {
                 this.collisionSystem.run(this.box)
             }
         })
-        this.collisionSystem.setCallback(()=>{
+        this.collisionSystem.setCallback(() => {
             plim()//audio
-            inventory.addItem(1, types.gold)
+            inventory.addItem(1, inventory.types.gold)
         })
 
     }

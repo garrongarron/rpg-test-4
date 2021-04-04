@@ -1,4 +1,4 @@
-import cache from './Cache.js'
+import cache from '../basic/Cache.js'
 class Tooltip {
     constructor() {
         let tooltip = document.createElement('div')

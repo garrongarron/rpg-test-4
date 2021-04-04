@@ -8,6 +8,7 @@ class CollisionSystem {
         this.character = null
         this.aabbBoxContainer = new Box3();
         this.scene = scene
+        this.callback = null
     }
 
 
@@ -35,8 +36,20 @@ class CollisionSystem {
         for (let index = 0; index < this.list.length; index++) {
             if (this.aabbBoxContainer.intersectsBox(this.list[index][0])) {
                 this.scene.remove(this.list[index][1])
+                this.list[index][1].position.x = 100
+                this.list[index][0].setFromObject(this.list[index][1])
+                this.emit()
             }
         }
+    }
+
+    emit(){
+        if(this.callback != null){
+            this.callback()
+        }
+    }
+    setCallback(callback){
+        this.callback = callback
     }
 
     show() {
@@ -49,6 +62,7 @@ class CollisionSystem {
         for (let index = 0; index < this.list.length; index++) {
             this.scene.remove(this.list[index][1])
         }
+        this.callback = null
     }
 }
 

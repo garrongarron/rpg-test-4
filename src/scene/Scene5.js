@@ -2,6 +2,9 @@ import AbstractScene from "./AbstractScene.js"
 import item from '../objects/Box2.js'
 import cameraController from "../controllers/CameraController.js"
 import CollisionSystem from "../collisions/CollisionSystem.js"
+import plim from "../audios/AudioManager.js"
+import inventory, { types } from "../inventory/Inventory.js"
+
 
 class Scene5 extends AbstractScene {
     constructor(goTo) {
@@ -40,10 +43,10 @@ class Scene5 extends AbstractScene {
                 this.collisionSystem.run(this.box)
             }
         })
-        
-        setTimeout(() => {
-            this.next()
-        }, 1000*15);
+        this.collisionSystem.setCallback(()=>{
+            plim()//audio
+            inventory.addItem(1, types.gold)
+        })
 
     }
 

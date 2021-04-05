@@ -34,6 +34,7 @@ class Scene5 extends AbstractScene {
 
     start() {
         super.start()
+        inventory.start()
         cameraController.start(this.box)
         this.collisionSystem.show()
         document.addEventListener('keydown', this.toggle)
@@ -54,6 +55,7 @@ class Scene5 extends AbstractScene {
         this.collisionSystem.hide()
         cameraController.stop()
         document.removeEventListener('keydown', this.toggle)
+        inventory.stop()
     }
 }
 

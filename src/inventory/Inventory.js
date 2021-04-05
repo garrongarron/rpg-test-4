@@ -19,7 +19,7 @@ class Inventory {
         Object.assign(this.inverTypes, ...Object.entries(this.types).map(([a, b]) => ({ [b]: a })))
         //grid
         this.grid = new Grid()
-        this.grid.show()
+        
 
         //css
         let style = document.createElement('style')
@@ -27,6 +27,12 @@ class Inventory {
         document.head.appendChild(style)
 
         this.n = 0
+    }
+    start(){
+        this.grid.show()
+    }
+    stop(){
+        this.grid.hide()
     }
     addItem(quantity, type) {
         if (!Object.keys(this.types).includes(this.inverTypes[type])) {

@@ -13,10 +13,11 @@ class LifeBar {
         this.update(0)
     }
     update(number) {
-        if (this.life + number < 0) {
+        this.life += number
+        if (this.life < 0) {
             this.life = 0
         }
-        if (this.life + number > 100) {
+        if (this.life > 100) {
             this.life = 100
         }
         this.slideBar.setLabel(this.life)

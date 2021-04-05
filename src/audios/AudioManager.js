@@ -1,5 +1,7 @@
 import plimUrl from './plim.mp3'
-
+import fuUrl from './Pwhuu.wav'
+import saltoUrl from './Salto.wav'
+import golpeUrl from './golpe.mp3'
 let audio = document.createElement('audio')
 audio.src = plimUrl
 audio.volume = 1.0;
@@ -10,4 +12,32 @@ let plim = () => {
     audio.play()
 }
 
+class Sound {
+    constructor() {
+        this.audioList = {
+            'plim': plimUrl,
+            'fu': fuUrl,
+            'salto': saltoUrl,
+            'golpe':golpeUrl
+        }
+        this.nodeList = {}
+
+        Object.keys(this.audioList).map(name => {
+
+            let audio = document.createElement('audio')
+            audio.src = this.audioList[name]
+            audio.volume = 1.0;
+            document.body.appendChild(audio)
+            this.nodeList[name] = audio
+
+        })
+    }
+    play(name) {
+        this.nodeList[name].play()
+    }
+}
+
+let sound = new Sound()
+
 export default plim
+export { sound }

@@ -5,7 +5,7 @@ const groundMat = new MeshStandardMaterial({
 })
 // groundMat.color.setHSL(0.095, 1, 0.75);
 const bigSword = new Mesh(
-    new PlaneGeometry(2, 2, 1, 1),
+    new PlaneGeometry(1, 1, 1, 1),
     groundMat
 );
 

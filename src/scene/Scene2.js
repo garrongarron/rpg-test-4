@@ -7,6 +7,7 @@ import AbstractScene from "./AbstractScene.js"
 import characterLifeBar from "../ui/CharacterLifeBar.js"
 import enemyLifeBar from "../ui/EnemyLifeBar.js"
 import swordController from "../controllers/SwordController.js"
+import { sound } from "../audios/AudioManager.js"
 
 
 class Scene2 extends AbstractScene {
@@ -23,14 +24,21 @@ class Scene2 extends AbstractScene {
         this.scene.add(finalBoss)
         this.box.position.y = .5
         cameraController.start(this.box)
-        swordController.start(this.box)
+
+        enemyLifeBar.start()
+        swordController.start(this.box, finalBoss)
+        swordController.setHurtCallback(()=>{
+            enemyLifeBar.update(-10)
+            sound.play('golpe')
+        })
         
         
         finalBossController.start(this.box, finalBoss)
         characterLifeBar.start()
-        enemyLifeBar.start()
-        
-        
+        finalBossController.setHurtCallback(()=>{
+            characterLifeBar.update(-30)
+            sound.play('fu')
+        })
     }
     stop(){
         super.stop()

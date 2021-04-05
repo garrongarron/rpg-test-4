@@ -10,10 +10,25 @@ class FinalBossController {
         this.speed = 3
         this.isShooting = false
         this.impact = false
+        this.hurting = false
+        this.hurtCallback = null
+    }
+    hurt(){
+        if(!this.hurting && this.hurtCallback != null){
+            this.hurtCallback()
+        }
+    }
+    setHurtCallback(cb){
+        this.hurtCallback = cb
     }
     follow() {
         if (this.impact) {
             bigSword.rotation.z += 0.2
+            this.moveAhead(this.speed*2)
+            if (this.finalBoss.position.distanceTo(this.target.position) < 1 + 2) {
+                this.hurt()
+                this.hurting = true
+            }
         }
         if (this.isShooting) return
 
@@ -28,20 +43,24 @@ class FinalBossController {
             setTimeout(() => {
                 this.isShooting = false
                 this.impact = false
-                let big = 1
+                this.hurting = false
+                let big = 2
                 bigSword.scale.set(big, big, big)
             }, 2 * 1000);
             setTimeout(() => {
-                let big = 2
+                let big = 4
                 bigSword.scale.set(big, big, big)
                 this.impact = true
             }, 1 * 1000);
             return
         }
 
+        this.moveAhead(this.speed)
+    }
+    moveAhead(speed){
         let vOut = new Vector3()
         vOut = this.finalBoss.getWorldDirection(vOut)
-        let movement = vOut.multiplyScalar(this.speed * getDelta())
+        let movement = vOut.multiplyScalar(speed * getDelta())
         this.finalBoss.position.add(movement)
     }
     start(target, finalBoss) {
@@ -55,6 +74,7 @@ class FinalBossController {
         machine.removeCallback(this.follow.bind(this))
         this.target = null
         this.finalBoss = null
+        this.hurtCallback = null
 
     }
 }

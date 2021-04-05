@@ -1,3 +1,4 @@
+import { sound } from '../audios/AudioManager.js'
 import SlideBar from './SlideBar.js'
 
 class LifeBar {
@@ -16,6 +17,8 @@ class LifeBar {
         this.life += number
         if (this.life < 0) {
             this.life = 0
+            window._stop()
+            sound.play('morty')
         }
         if (this.life > 100) {
             this.life = 100

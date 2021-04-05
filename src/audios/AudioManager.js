@@ -2,6 +2,7 @@ import plimUrl from './plim.mp3'
 import fuUrl from './Pwhuu.wav'
 import saltoUrl from './Salto.wav'
 import golpeUrl from './golpe.mp3'
+import mortyUrl from './morty.mp3'
 let audio = document.createElement('audio')
 audio.src = plimUrl
 audio.volume = 1.0;
@@ -18,7 +19,8 @@ class Sound {
             'plim': plimUrl,
             'fu': fuUrl,
             'salto': saltoUrl,
-            'golpe':golpeUrl
+            'golpe':golpeUrl,
+            'morty':mortyUrl
         }
         this.nodeList = {}
 
@@ -26,7 +28,7 @@ class Sound {
 
             let audio = document.createElement('audio')
             audio.src = this.audioList[name]
-            audio.volume = 1.0;
+            audio.volume = .25;
             document.body.appendChild(audio)
             this.nodeList[name] = audio
 

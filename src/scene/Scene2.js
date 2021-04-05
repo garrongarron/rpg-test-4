@@ -28,7 +28,7 @@ class Scene2 extends AbstractScene {
         enemyLifeBar.start()
         swordController.start(this.box, finalBoss)
         swordController.setHurtCallback(()=>{
-            enemyLifeBar.update(-10)
+            enemyLifeBar.update(-30)
             sound.play('golpe')
         })
         
@@ -36,7 +36,7 @@ class Scene2 extends AbstractScene {
         finalBossController.start(this.box, finalBoss)
         characterLifeBar.start()
         finalBossController.setHurtCallback(()=>{
-            characterLifeBar.update(-30)
+            characterLifeBar.update(-40)
             sound.play('fu')
         })
     }

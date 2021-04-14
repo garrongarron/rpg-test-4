@@ -12,17 +12,17 @@ class Machine {
     }
     removeCallback(callback) {
         const index = this.callbacks.indexOf(callback);
-        if (index !== - 1) {
+        if (index !== -1) {
             this.callbacks.splice(index, 1);
         }
     }
-    cleanCallbacks(){
+    cleanCallbacks() {
         this.callbacks = []
     }
     run() {
         let currentTime = new Date().getTime()
         let diff = currentTime - prev
-        if (diff < 32) {//16/1000
+        if (diff < 32) { //16/1000
             // console.log(diff, 'jumping');
             requestAnimationFrame(machine.run)
             return
@@ -36,7 +36,9 @@ class Machine {
         }
 
         if (on) {
-            requestAnimationFrame(machine.run)
+            setTimeout(() => {
+                requestAnimationFrame(machine.run)
+            }, 1000 / 30);
         }
     }
 
@@ -50,15 +52,15 @@ class Machine {
 }
 
 const machine = new Machine()
-if(window._stop == undefined){
-    window._stop = () =>{
+if (window._stop == undefined) {
+    window._stop = () => {
         machine.off()
         return machine
     }
 }
 
-if(window._restart == undefined){
-    window._restart = ()=>{
+if (window._restart == undefined) {
+    window._restart = () => {
         machine.on()
         return machine
     }

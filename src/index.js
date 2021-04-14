@@ -3,4 +3,6 @@ import './ui/visual-effects.scss'
 import goTo from './scene/SceneHandler.js'
 
 
-goTo('scene2')
+let i = location.search.replace('?', '')
+i = (i == '') ? 1 : i
+goTo('scene' + i)

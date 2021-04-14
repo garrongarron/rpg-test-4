@@ -3,7 +3,8 @@ import camera from '../basic/Camera.js'
 import scene from '../basic/Scene.js'
 import keyListener from '../basic/KeyListener.js'
 import pointer from './Pointer.js'
-import { Raycaster, Vector2, Mesh, SphereGeometry, MeshStandardMaterial } from 'three'
+import { Raycaster, Vector2 } from 'three'
+import bullet from '../objects/Sphere.js'
 
 
 class ShooterSystem {
@@ -45,17 +46,16 @@ class ShooterSystem {
         this.raycaster.setFromCamera(new Vector2(), this.camera);
         const intersects = this.raycaster.intersectObjects(this.scene.children, true)[0];
         if (intersects) {
-            const bullet = new Mesh(
-                new SphereGeometry(.05, 32, 32),
-                new MeshStandardMaterial({
-                    color: 0x660000,
-                }));
-            bullet.position.set(
+            const bulletClone = bullet.clone()
+            bulletClone.position.set(
                 intersects.point.x,
                 intersects.point.y,
                 intersects.point.z,
             );
-            intersects.object.attach(bullet)
+            intersects.object.attach(bulletClone)
+            setTimeout(() => {
+                intersects.object.remove(bulletClone)
+            }, 5 * 1000);
         }
     }
 }

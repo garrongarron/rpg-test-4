@@ -1,57 +1,59 @@
-import machine from "../basic/Machine.js"
-import scene from "../basic/Scene.js"
-import moveAhead from "../displacement/Displacement.js"
 import projectile from "../objects/Projectile.js"
+import pointer from "../shooting/Pointer.js"
+import projectileSpawner from "./ProjectileSpawner.js"
+import { Quaternion, Raycaster, Vector2, Vector3 } from 'three'
+import camera from '../basic/Camera.js'
+import scene from "../basic/Scene.js"
 
 class ProjectileSystem {
-    constructor(projectile) {
-        this.q = 5
-        this.container = []
-        this.pointer = 0
-        this.callbacks = []
-        this.projectile = projectile
+    constructor() {
+        this.raycaster = new Raycaster();
+        this.camera = camera
+        this.scene = scene
+        this.origin = null
+        this.t = null
+        this.frequency = 4
+        this.down = () => {
+            if (!pointer.ready()) return
+            this.shoot()
+            this.t = setInterval(() => {
+                this.shoot()
+            }, 1000 / this.frequency);
+        }
+        this.up = () => {
+            clearInterval(this.t)
+        }
     }
-    start() {
-        if (this.container.length == 0) this.fillContainer()
-        setInterval(() => {
-            this.shoot(this.projectile.position, this.projectile.rotation)
-        }, 3 * 1000);
+    start(origin) {
+        this.origin = origin
+        projectileSpawner.start()
+        pointer.start()
+        document.addEventListener('mousedown', this.down)
+        document.addEventListener('mouseup', this.up)
     }
 
     stop() {
-        this.container.forEach((element, index) => {
-            scene.remove(element)
-            machine.removeCallback(this.callbacks[index])
-        });
+        projectileSpawner.stop()
+        pointer.stop()
+        document.removeEventListener('mousedown', this.down)
+        document.removeEventListener('mouseup', this.up)
     }
 
-    fillContainer() {
-        for (let index = 0; index < this.q; index++) {
-            let p = this.projectile.clone()
-            this.container.push(p)
-            this.callbacks[index] = () => {
-                let projectile = this.container[index]
-                let colision = moveAhead(projectile, 40)
-                if (colision) {
-                    // scene.remove(projectile)
-                    console.log(colision.object.attach(projectile));
-                    machine.removeCallback(this.callbacks[index])
-                }
-            }
+    shoot() {
+        this.raycaster.setFromCamera(new Vector2(), this.camera);
+        const intersects = this.raycaster.intersectObjects(this.scene.children, true)[0];
+        if (intersects) {
+            this.origin.lookAt(intersects.point)
+        } else {
+            let vOut = new Vector3()
+            vOut = this.camera.getWorldDirection(vOut)
+            let movement = vOut.multiplyScalar(40)
+            this.origin.lookAt(movement.add(this.camera.position))
         }
+        projectileSpawner.shoot(this.origin.getWorldPosition(new Vector3()), this.origin.getWorldQuaternion(new Quaternion())) //    
     }
 
-    shoot(position, rotation) {
-        let index = (this.container[++this.pointer]) ? this.pointer : 0
-        this.pointer = index
 
-        if (position) this.container[index].position.set(position.x, position.y, position.z)
-        if (rotation) this.container[index].rotation.set(rotation.x, rotation.y, rotation.z)
-
-        scene.add(this.container[index])
-        machine.removeCallback(this.callbacks[index])
-        machine.addCallback(this.callbacks[index])
-    }
 }
 
 let projectileSystem = new ProjectileSystem(projectile)

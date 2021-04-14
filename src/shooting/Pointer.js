@@ -8,19 +8,22 @@ class Pointer {
         this.keydown = (e) => {
             if (e.keyCode == 69) {
                 this.container.classList.remove('hide')
+                this.flag = true
             }
         }
         this.keyup = (e) => {
             if (e.keyCode == 69) {
                 this.container.classList.add('hide')
+                this.flag = false
             }
         }
         this.instuction = document.createElement('div')
         this.instuction.classList.add('help')
         this.instuction.innerHTML = `W=>Up; S=>Down; E=>Aim; Click to shoot`
+        this.flag = false
 
     }
-    
+
     start() {
         document.body.appendChild(this.container)
         document.addEventListener('keydown', this.keydown)
@@ -32,7 +35,10 @@ class Pointer {
         cache.appendChild(this.instuction)
         document.removeEventListener('keydown', this.keydown)
         document.removeEventListener('keyup', this.keyup)
-
+        this.flag
+    }
+    ready() {
+        return this.flag
     }
 }
 

@@ -11,6 +11,8 @@ class Scene3 extends AbstractScene {
         this.scene.add(finalBoss)
         finalBoss.position.set(0, 1, 8);
         projectileSystem.start()
+        this.camera.position.set(5, 2, -5)
+        this.camera.lookAt(this.box.position)
             // setTimeout(() => {
             //     this.next()
             // }, 1000 * 5);

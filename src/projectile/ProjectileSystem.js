@@ -33,6 +33,8 @@ class ProjectileSystem {
                 let projectile = this.container[index]
                 let colision = moveAhead(projectile, 40)
                 if (colision) {
+                    // scene.remove(projectile)
+                    console.log(colision.object.attach(projectile));
                     machine.removeCallback(this.callbacks[index])
                 }
             }
